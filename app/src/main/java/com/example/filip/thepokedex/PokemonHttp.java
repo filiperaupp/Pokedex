@@ -68,7 +68,7 @@ public class PokemonHttp {
         ArrayList<Pokemon> arrayList = new ArrayList<>();
         try {
             JSONArray jsonPokemons= json.getJSONArray("pokemon_entries");
-            for (int i=0; i<100; i++) {
+            for (int i=0; i<300; i++) {
                 JSONObject onePokemon = jsonPokemons.getJSONObject(i);
                 arrayList.add(getPokemonFromJson(onePokemon));
             }
@@ -163,9 +163,15 @@ public class PokemonHttp {
             JSONObject pokeType2Object = pokeSlot2Object.getJSONObject("type");
             type2 = pokeType2Object.getString("name");
 
-            JSONObject pokeSlot1Object = pokeTypesArray.getJSONObject(1);
-            JSONObject pokeType1Object = pokeSlot2Object.getJSONObject("type");
-            type1 = pokeType2Object.getString("name");
+
+            try{
+                JSONObject pokeSlot1Object = pokeTypesArray.getJSONObject(1);
+                JSONObject pokeType1Object = pokeSlot1Object.getJSONObject("type");
+                type1 = pokeType1Object.getString("name");
+            } catch (Exception e) {
+                type1 = "";
+            }
+
 
             pokemonAtual.setRest(type1,type2,hp,attack,defense,speed,specialAttack,specialDefense,urlSprite);
         }catch (JSONException ex){

@@ -5,21 +5,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#c00d0d"
     tools:context=".MainActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="POKEDEX"
+        android:textColor="#fff"
         android:textSize="30dp"
         android:textAlignment="center"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#111"
+        android:layout_marginHorizontal="10dp">
+        <TextView
+            android:id="@+id/txtIdPokemon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID"
+            android:textColor="#eee"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="30dp"/>
 
+        <TextView
+            android:id="@+id/txtNomePokemon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nome do Pokemon"
+            android:textColor="#eee"
+            android:textSize="30dp"/>
+    </LinearLayout>
 
     <ListView
         android:id="@+id/mListPokemons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#ffad99"
+        android:layout_marginHorizontal="10dp"
+    >
 
 
     </ListView>

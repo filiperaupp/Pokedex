@@ -5,18 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PokemonDetalheActivity">
+    tools:context=".PokemonDetalheActivity"
+    android:background="#aaff0000">
 
-    <ImageView
-        android:id="@+id/imageTeste"
-        android:layout_width="60dp"
-        android:layout_height="60dp" />
+    <ListView
+        android:id="@+id/listaDetalhe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/txtTeste"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:text="a"/>
+    </ListView>
 
 </LinearLayout>

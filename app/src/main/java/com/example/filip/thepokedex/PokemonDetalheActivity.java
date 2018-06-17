@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,8 +18,8 @@ import java.util.ArrayList;
 public class PokemonDetalheActivity extends AppCompatActivity {
 
     PokemonsDetalheTask mTask2;
-    Pokemon mPokemonAtivo;
     ArrayList<Pokemon> mPokemons;
+    ListView mListPokemons;
     int numeroPokemon;
     ArrayAdapter<Pokemon> mAdapter;
 
@@ -29,10 +30,8 @@ public class PokemonDetalheActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon_detalhe);
         numeroPokemon = (Integer) getIntent().getSerializableExtra("pokemonAtivo".toString());
-        txtTeste = findViewById(R.id.txtTeste);
+        mListPokemons = findViewById(R.id.listaDetalhe);
         search();
-        //new DownloadImageTask((ImageView) findViewById(R.id.imageTeste))
-                //.execute("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png");
 
     }
 
@@ -40,17 +39,10 @@ public class PokemonDetalheActivity extends AppCompatActivity {
         if (mPokemons == null) {
             mPokemons = new ArrayList<Pokemon>();
         }
+        mAdapter = new DetalheAdapter(getApplicationContext(), mPokemons);
+        mListPokemons.setAdapter(mAdapter);
+        startDownload();
 
-
-        if (mTask2 == null) {
-            if (PokemonHttp.hasConnected(this)) {
-                startDownload();
-            } else {
-                Toast.makeText(getApplicationContext(), "Sem conexão...", Toast.LENGTH_LONG).show();
-            }
-        } else if (mTask2.getStatus() == AsyncTask.Status.RUNNING) {
-            Toast.makeText(getApplicationContext(), "......", Toast.LENGTH_LONG).show();
-        }
     }
 
     public void startDownload() {
@@ -79,8 +71,14 @@ public class PokemonDetalheActivity extends AppCompatActivity {
         protected void onPostExecute(ArrayList<Pokemon> pokemons) {
             super.onPostExecute(pokemons);
             //     showProgress(false);
-                mPokemons = pokemons;
+            if (pokemons != null) {
+                mPokemons.clear();
+                mPokemons.addAll(pokemons);
+                mAdapter.notifyDataSetChanged();
+            } else {
+
                 Toast.makeText(getApplicationContext(), "Buscando...", Toast.LENGTH_LONG).show();
+            }
 
         }
     }
