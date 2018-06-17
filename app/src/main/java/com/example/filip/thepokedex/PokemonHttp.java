@@ -89,8 +89,8 @@ public class PokemonHttp {
             if (response == HttpURLConnection.HTTP_OK) {
                 InputStream inputStream = connection.getInputStream();
                 JSONObject json = new JSONObject(bytesParaString(inputStream));
-                ArrayList<Pokemon>  currenciesList =readJson(json);
-                return currenciesList;
+                ArrayList<Pokemon>  pokemonsList =readJson(json);
+                return pokemonsList;
             }
 
         } catch (Exception e) {
@@ -99,7 +99,7 @@ public class PokemonHttp {
         return null;
     }
 //--------------------------------------------------------------------------------
-    public static Pokemon loadPokemonDetail(int numeroPokemon) {
+    public static ArrayList<Pokemon> loadPokemonDetail(int numeroPokemon) {
         try {
             setarUrlDetalhes(numeroPokemon);
             HttpURLConnection connection = connectar(URL_DETALHE);
@@ -108,7 +108,9 @@ public class PokemonHttp {
                 InputStream inputStream = connection.getInputStream();
                 JSONObject json = new JSONObject(bytesParaString(inputStream));
                 Pokemon  pokemonFull= readDetailJson(json, numeroPokemon);
-                return pokemonFull;
+                ArrayList agoraVaiOPokemon = new ArrayList();
+                agoraVaiOPokemon.add(pokemonFull);
+                return agoraVaiOPokemon;
             }
 
         } catch (Exception e) {
@@ -118,7 +120,7 @@ public class PokemonHttp {
     }
     public static Pokemon getPokemonDetailFromJson(JSONObject json, int numeroPokemon){
         Pokemon pokemonAtual = new Pokemon();
-        pokemonAtual = pokemonAtual.getByid(numeroPokemon);
+        pokemonAtual = pokemonAtual.getByid(numeroPokemon-1);
         String hp;
         String attack;
         String defense;

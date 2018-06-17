@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,10 +16,11 @@ import java.util.ArrayList;
 
 public class PokemonDetalheActivity extends AppCompatActivity {
 
-    PokemonsDetalheTask mTask;
+    PokemonsDetalheTask mTask2;
     Pokemon mPokemonAtivo;
     ArrayList<Pokemon> mPokemons;
     int numeroPokemon;
+    ArrayAdapter<Pokemon> mAdapter;
 
     TextView txtTeste;
 
@@ -28,14 +28,11 @@ public class PokemonDetalheActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon_detalhe);
-        search();
-        new DownloadImageTask((ImageView) findViewById(R.id.imageTeste))
-                .execute("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png");
         numeroPokemon = (Integer) getIntent().getSerializableExtra("pokemonAtivo".toString());
         txtTeste = findViewById(R.id.txtTeste);
-        //mPokemonAtivo = mPokemonAtivo.getByid(numeroPokemon);
-        //mPokemonAtivo = PokemonHttp.loadPokemonDetail(numeroPokemon);
-
+        search();
+        //new DownloadImageTask((ImageView) findViewById(R.id.imageTeste))
+                //.execute("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png");
 
     }
 
@@ -44,21 +41,22 @@ public class PokemonDetalheActivity extends AppCompatActivity {
             mPokemons = new ArrayList<Pokemon>();
         }
 
-        if (mTask == null) {
+
+        if (mTask2 == null) {
             if (PokemonHttp.hasConnected(this)) {
                 startDownload();
             } else {
                 Toast.makeText(getApplicationContext(), "Sem conexão...", Toast.LENGTH_LONG).show();
             }
-        } else if (mTask.getStatus() == AsyncTask.Status.RUNNING) {
+        } else if (mTask2.getStatus() == AsyncTask.Status.RUNNING) {
             Toast.makeText(getApplicationContext(), "......", Toast.LENGTH_LONG).show();
         }
     }
 
     public void startDownload() {
-        if (mTask == null || mTask.getStatus() != AsyncTask.Status.RUNNING) {
-            mTask = new PokemonsDetalheTask();
-            mTask.execute();
+        if (mTask2 == null || mTask2.getStatus() != AsyncTask.Status.RUNNING) {
+            mTask2 = new PokemonsDetalheTask();
+            mTask2.execute();
         }
 
     }
@@ -74,22 +72,16 @@ public class PokemonDetalheActivity extends AppCompatActivity {
 
         @Override
         protected ArrayList<Pokemon> doInBackground(Void... strings) {
-            ArrayList<Pokemon> pokemonUnico = new ArrayList<>();
-            mPokemonAtivo = PokemonHttp.loadPokemonDetail(numeroPokemon);
-            pokemonUnico.add(mPokemonAtivo);
+            ArrayList<Pokemon> pokemonUnico = PokemonHttp.loadPokemonDetail(numeroPokemon);
             return pokemonUnico;
         }
         @Override
         protected void onPostExecute(ArrayList<Pokemon> pokemons) {
             super.onPostExecute(pokemons);
             //     showProgress(false);
-            if (pokemons != null) {
-                mPokemons.clear();
-                mPokemons.addAll(pokemons);
-            } else {
-
+                mPokemons = pokemons;
                 Toast.makeText(getApplicationContext(), "Buscando...", Toast.LENGTH_LONG).show();
-            }
+
         }
     }
 

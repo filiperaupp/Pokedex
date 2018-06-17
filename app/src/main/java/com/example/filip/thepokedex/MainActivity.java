@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intentResult = new Intent(MainActivity.this,PokemonDetalheActivity.class);
-                intentResult.putExtra("pokemonAtivo",i+1 );
+                intentResult.putExtra("pokemonAtivo",(i+1));
                 MainActivity.this.startActivity(intentResult);
                 //Toast.makeText(getApplicationContext(),itenClicado.getFrase().toString(),Toast.LENGTH_SHORT).show();
             }
@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected ArrayList<Pokemon> doInBackground(Void... strings) {
-            ArrayList<Pokemon> previsaoList = PokemonHttp.loadPokemons();
-            return previsaoList;
+            ArrayList<Pokemon> pokemonList = PokemonHttp.loadPokemons();
+            return pokemonList;
         }
         @Override
         protected void onPostExecute(ArrayList<Pokemon> pokemons) {
